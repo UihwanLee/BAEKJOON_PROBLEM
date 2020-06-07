@@ -21,7 +21,11 @@ int main(void)
 	if(other < K)
 	{
 		K = K - other;
-		if(K>0) result = result - (K/3 + 1);
+		if(K>0) 
+		{
+			int temp = (K%3==0) ? K/3 : K/3 + 1;
+			result = result - temp;	
+		}
 	}
 	if(result < 0) result = 0;
 	

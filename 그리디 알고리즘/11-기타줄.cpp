@@ -6,7 +6,7 @@ using namespace std;
 
 int main(void)
 {
-	int N, M, result = 1000; 
+	int N, M, result = 100000; 
 	int tmp1, tmp2;
 	int min1 = 9999, min2 = 9999;
 	
