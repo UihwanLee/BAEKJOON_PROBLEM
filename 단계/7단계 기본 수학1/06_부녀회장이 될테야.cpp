@@ -8,37 +8,37 @@ using namespace std;
 
 int main(void)
 {
-	int N, count=2147483647, temp=0;
-	bool isA = true, isB = true;
+	int T, k, n;
+	int arr[15][15]{ };
 	
-	cin >> N;
+	cin >> T;
 	
-	isA = (N%5==0) ? true : false;
-	if(isA)
+	// 0층 : 1 2 3 4... 
+	// 1층 : 1 3 6 10...
+	// 2층 : 1 4 10 20... 
+	// 3층 : 1 5 15 35... 
+	// k층 n호 수 = k-1층 n호 수 + k층 n-1호 수 
+	
+	for(int i=0; i<T; i++)
 	{
-		// 5로 나누어 지면 5로 나누는 것이 더 작은 개수 봉지
-		count = N/5;
-	}
-	else
-	{
-		// 3으로 나누어 지면 먼저 3으로 나누어보고 카운터에 담기
-		isB = (N%3==0) ? true : false;
-		count = (isB && count>=N/3) ? N/3 : count;
+		cin >> k >> n;
 		
-		// 5씩 빼보고 3으로 나눌 수 있나 확인 
-		while(1)
+		for(int row=0; row<k+1; row++)
 		{
-			if(N < 0) break;
-			
-			N -= 5; temp++;
-			isB = (N%3==0) ? true : false;
-			if(isB)
+			arr[row][0] = 1;
+			for(int col=0; col<n; col++)
 			{
-				count = (count > temp + N/3) ? temp + N/3 : count; 	
+				if(row == 0) arr[row][col] = col+1; // 0층이면 1 2 3 4..
+				
+				if(row > 0 && col > 0)
+				{
+					arr[row][col] = arr[row][col-1] + arr[row-1][col];
+				}
 			}
 		}
+		
+		cout << arr[k][n-1] << endl;
 	}
-	
-	
+
 	return 0;
 }
