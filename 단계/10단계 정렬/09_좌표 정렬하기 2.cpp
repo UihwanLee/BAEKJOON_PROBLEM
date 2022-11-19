@@ -4,6 +4,15 @@
 
 using namespace std;
 
+bool comp(pair<int, int>a, pair<int, int>b) {
+	if (a.second == b.second) {
+		return a.first < b.first;
+	}
+	else {
+		return a.second < b.second;
+	}
+}
+
 int main()
 {
     ios_base::sync_with_stdio(false);
@@ -19,7 +28,7 @@ int main()
 		v.emplace_back(pair<int,int>(a, b));	
 	} 	
 	
-	sort(v.begin(), v.end());
+	sort(v.begin(), v.end(), comp);
 	for(int i=0; i<v.size(); i++)
 	{
 		cout << v[i].first << " " << v[i].second << '\n';
