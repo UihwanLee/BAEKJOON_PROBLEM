@@ -1,90 +1,62 @@
 #include <iostream>
-
 using namespace std;
 
-int CNT = 0;
+int* A;
+int* tmp;
+int N, cnt = 0, K = 0, result = -1;
 
-void merge(int list[], int start, int mid, int end)
+void merge(int A[], int p, int q, int r)
 {
-	int b[1000];
-	int i=start;
-	int j=mid+1;
-	int k=0;
-	
-	while(i<=mid && j<=end)
-	{
-		if(list[i]<=list[j])
-		{
-			b[k] = list[i];
-			k++; i++;
-		}
-		else
-		{
-			b[k] = list[j];
-			j++; k++;
-		}
-	}
-	
-	while(i<=mid)
-	{
-		b[k] = list[i];
-		k++; i++;
-	}
-	
-	while(j<=end)
-	{
-		b[k] = list[j];
-		j++; k++;
-	}
-	
-	k--;
-	while(k>=0)
-	{
-		list[start+k] = b[k];
-		k--;
-	}
+    int i = p, j = q + 1, t = 1;
+  
+    while (i <= q && j <= r)
+    {
+        if (A[i] <= A[j])
+            tmp[t++] = A[i++];
+        else
+            tmp[t++] = A[j++];
+    }
+    while (i <= q) 
+        tmp[t++] = A[i++];
+
+    while (j <= r) 
+        tmp[t++] = A[j++];
+
+    i = p, t = 1;
+    while (i <= r) 
+    {
+        A[i++] = tmp[t++];
+        cnt++;
+        if (cnt == K)
+        {
+            result = A[i - 1];
+            break;
+        }
+    }
 }
 
-void mergesort(int list[], int start, int end)
+void merge_sort(int A[], int p, int r)
 {
-	if(start<end)
-	{
-		int mid = (start+end)/2;
-		
-		CNT++;
-		
-		mergesort(list, start, mid);
-		mergesort(list, mid+1, end);
-		merge(list, start, mid, end);
-	}
-	else
-	{
-		return;
-	}
+    if (p < r)
+    {
+        int q = (p + r) / 2;
+        merge_sort(A, p, q);
+        merge_sort(A, q + 1, r);
+        merge(A, p, q, r);
+    }
 }
 
-int main()
-{
-    ios_base::sync_with_stdio(0);
-    cin.tie(0);
-    
-    int N, K;
+int main() {
+	ios_base::sync_with_stdio(0);
+	
     cin >> N >> K;
-    int* list = (int*)malloc(sizeof(int)*N);
-    
-    for(int i=0; i<N; i++)
-    {
-    	int temp;
-    	cin >> temp;
-    	list[i] = temp;
-	}
-	
-	mergesort(list, 0, N-1);
-	
-	for(int i=0; i<N; i++)
-    {
-    	cout << list[i] << " ";
-	}
-	cout << CNT;
-    
+    A = new int[N + 1];
+    tmp = new int[N + 1];
+    for (int i = 0; i < N; i++)
+        cin >> A[i];
+    merge_sort(A, 0, N - 1);
+    cout << result;
+    delete[] A;
+    delete[] tmp;
+    return 0;
 }
