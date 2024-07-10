@@ -8,12 +8,13 @@ using namespace std;
 
 int main(void)
 {
-	char S[1002];
-	int i;
-	
-	cin >> S >> i;
-	
-	cout << S[i-1];
+	while (1)
+	{
+		char S[1000];
+		cin.getline(S, 100);
+		if (*S == '\0') break;	
+		cout << S << endl;
+	}
 	
 	return 0;	
 } 	
